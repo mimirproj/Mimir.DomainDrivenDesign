@@ -1,0 +1,10 @@
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/bin/Release/netstandard2.0/Mimir.DomainDrivenDesign.deps.json
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/bin/Release/netstandard2.0/Mimir.DomainDrivenDesign.dll
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/bin/Release/netstandard2.0/Mimir.DomainDrivenDesign.pdb
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/bin/Release/netstandard2.0/Mimir.DomainDrivenDesign.xml
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.fsprojAssemblyReference.cache
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.AssemblyInfoInputs.cache
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.AssemblyInfo.fs
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.dll
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.xml
+/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/obj/Release/netstandard2.0/Mimir.DomainDrivenDesign.pdb

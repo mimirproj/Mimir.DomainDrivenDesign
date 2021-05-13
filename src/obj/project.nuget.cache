@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "obgaB7ls2HhqE92UmVueBSp64p88LMrjVmnSOHRReX2Y+M4DGoswyUoZi/0NsSJ4IJFalR8RXG0YSTBMf9dfcQ==",
+  "success": true,
+  "projectFilePath": "/home/huginn_muninn/Source/Mimir/Mimir.DomainDrivenDesign/src/Mimir.DomainDrivenDesign.fsproj",
+  "expectedPackageFiles": [
+    "/home/huginn_muninn/.nuget/packages/fsharp.core/5.0.0/fsharp.core.5.0.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/mimir.elm.core/1.0.0/mimir.elm.core.1.0.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/mimir.elm.regex/1.0.0/mimir.elm.regex.1.0.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/mimir.elm.time/1.0.0/mimir.elm.time.1.0.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/mimir.fsharp.extensions/1.0.0/mimir.fsharp.extensions.1.0.0.nupkg.sha512",
+    "/home/huginn_muninn/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

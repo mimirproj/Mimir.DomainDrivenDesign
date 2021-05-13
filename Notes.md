@@ -1,0 +1,1 @@
+dotnet pack ./src/Mimir.DomainDrivenDesign.fsproj -c Release
