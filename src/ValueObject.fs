@@ -38,6 +38,7 @@ module ValueObjectFactory =
 
 [<RequireQualifiedAccess>]
 module ValueObject =
+
     let inline get<'t, 'v when 't :> IValueObject<'v>> (valueObject:'t) =
         valueObject.Get()
 
@@ -45,6 +46,48 @@ module ValueObject =
         factory.Clean
         >> factory.Constrain
         >> Result.bind factory.Construct
+
+
+    open Mimir.Jsonic
+
+    let encode<'t, 'v when 't :> IValueObject<'v>> (name:string)
+                                                   (valueEncoder:Encoder<'v>)
+                                                   : Encoder<'t> =
+
+        fun (valueObject:'t) ->
+            Encode.object [ (name, valueEncoder (get valueObject)) ]
+
+
+    let decode (name:string)
+               (valueDecoder:Decoder<'v>)
+               (formatError:'e -> string)
+               (factory:ValueObjectFactory<'t, 'v, 'e>)
+               : Decoder<'t> =
+
+        fun path value ->
+            match valueDecoder path value with
+            | Error e -> Error e
+            | Ok decodedValue ->
+                create factory decodedValue
+                |> Result.mapError(fun e ->
+                    let msg = $"Decoding of {name} failed with message: {formatError e}."
+                    Failure {| Path=path
+                               Message=msg
+                            |}
+                )
+
+
+    let codec name
+              valueEncoder
+              valueDecoder
+              (formatError:'e -> string)
+              (factory:ValueObjectFactory<'t, 'v, 'e>)
+              : Codec<'t> =
+
+        Codec.build
+            (encode name valueEncoder)
+            (decode name valueDecoder formatError factory)
+
 
 
 [<AutoOpen>]
