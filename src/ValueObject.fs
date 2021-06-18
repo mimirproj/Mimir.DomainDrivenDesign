@@ -64,8 +64,10 @@ module ValueObject =
                (factory:ValueObjectFactory<'t, 'v, 'e>)
                : Decoder<'t> =
 
+        let decode = Decode.object(fun get -> get.Required.Field name valueDecoder)
+
         fun path value ->
-            match valueDecoder path value with
+            match decode path value with
             | Error e -> Error e
             | Ok decodedValue ->
                 create factory decodedValue
@@ -75,6 +77,7 @@ module ValueObject =
                                Message=msg
                             |}
                 )
+
 
 
     let codec name
