@@ -1,44 +1,35 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <Authors>Mimir</Authors>
-    <Description>Mimir's DomainDrivenDesign</Description>
-
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <Version>3.1.0-alpha</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>Mimir Domain Driven Design</PackageTags>
-    <Description>DDD patterns in F# useful to Mimir.</Description>
-    <NeutralLanguage>en</NeutralLanguage>
-    <RepositoryUrl>https://github.com/mimirproj</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-
-    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-
-    <!-- FS0025: Incomplete pattern matches on this expression. -->
-    <WarningsAsErrors>25</WarningsAsErrors>
-  </PropertyGroup>
-
-
-  <ItemGroup>
-    <Compile Include="ValueObject.fs" />
-    <Compile Include="MonotonicValue.fs" />
-    <Compile Include="Constraint.fs" />
-  </ItemGroup>
-
-  <!-- Add source files to "fable" folder in Nuget package -->
-  <ItemGroup>
-    <Content Include="*.fsproj; **\*.fs" PackagePath="fable\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Mimir.Elm.Core" Version="1.0.0" />
-    <PackageReference Include="Mimir.Elm.Regex" Version="1.0.0" />
-    <PackageReference Include="Mimir.Elm.Time" Version="1.0.0" />
-    <PackageReference Include="Mimir.FSharp.Extensions" Version="3.1.0" />
-    <PackageReference Include="Mimir.Jsonic" Version="3.1.0-alpha" />
-  </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Authors>Mimir</Authors>
+		<Description>Mimir's DomainDrivenDesign</Description>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Version>5.0.0-alpha</Version>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageTags>Mimir Domain Driven Design</PackageTags>
+		<Description>DDD patterns in F# useful to Mimir.</Description>
+		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryUrl>https://github.com/mimirproj</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+		<!-- FS0025: Incomplete pattern matches on this expression. -->
+		<WarningsAsErrors>25</WarningsAsErrors>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="ValueObject.fs"/>
+		<Compile Include="MonotonicValue.fs"/>
+		<Compile Include="Constraint.fs"/>
+	</ItemGroup>
+	<!-- Add source files to "fable" folder in Nuget package -->
+	<ItemGroup>
+		<Content Include="*.fsproj; **\*.fs" PackagePath="fable\"/>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Mimir.Elm.Core" Version="1.0.0"/>
+		<PackageReference Include="Mimir.Elm.Regex" Version="1.0.0"/>
+		<PackageReference Include="Mimir.Elm.Time" Version="1.0.0"/>
+		<PackageReference Include="Mimir.FSharp.Extensions" Version="3.3.0"/>
+		<PackageReference Include="Mimir.Jsonic" Version="5.0.0-alpha"/>
+	</ItemGroup>
 </Project>

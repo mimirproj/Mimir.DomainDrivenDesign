@@ -72,10 +72,11 @@ module ValueObject =
             | Ok decodedValue ->
                 create factory decodedValue
                 |> Result.mapError(fun e ->
-                    let msg = $"Decoding of {name} failed with message: {formatError e}."
-                    Failure {| Path=path
-                               Message=msg
-                            |}
+                    let msg = $"Creation of ValueObject {name} failed with message: {formatError e}."
+                    JsonicError.Failure
+                        {| Path=path
+                           Message=msg
+                        |}
                 )
 
 
