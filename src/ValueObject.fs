@@ -1,102 +1,74 @@
 namespace Mimir.DomainDrivenDesign
 
-type IValueObject<'v> =
-    abstract Get: unit -> 'v
+open System
+open Mimir.Jsonic
 
-[<NoEquality; NoComparison>]
-type ValueObjectFactory<'t, 'v, 'e
-                         when 't : equality
-                          and 't : comparison
-                          and 't :> IValueObject<'v>> =
-    private
-        { Clean: 'v -> 'v
-          Constrain: 'v -> Result<'v, 'e>
-          Construct: 'v -> Result<'t, 'e>
-        }
+type ValueObject<'tag, 'value when 'value : equality and 'value : comparison> =
+    private {
+        Value: 'value
+        Proof: Phantom.Proof<'tag>
+    }
 
+    /// Extracts the value from within.
+    /// Signature matches `Extractable` Active Pattern.
+    member this.Extract() =
+        this.Value
 
-[<RequireQualifiedAccess>]
-module ValueObjectFactory =
-    let create construct : ValueObjectFactory<'t, 'v, 'e> =
-        { Clean = id
-          Constrain = Ok
-          Construct = construct
-        }
+[<AbstractClass>]
+type ValueObjectFactory<'tag, 'value, 'error when 'value : equality and 'value : comparison>
+                       ( tag:'tag
+                       , objectName: string
+                       , valueCodec: Codec<'value>
+                       ) =
 
-    let clean f (factory:ValueObjectFactory<'t, 'v, 'e>) =
-        { factory with
-            Clean = factory.Clean >> f
-        }
+    /// Checks whether the input matches what is expected and returns `Ok 'value` if so, otherwise `Error 'error`.
+    /// Steps included usually include cleaning the input, chacking the input and then formatting it.
+    abstract TryParse: 'value -> Result<'value, 'error>
 
-    let constrain f (factory:ValueObjectFactory<'t, 'v, 'e>) =
-        { factory with
-            Constrain =
-                factory.Constrain
-                >> Result.bind f
-        }
+    /// Format an `'error` into a `string`.
+    abstract FormatError:'error -> string
 
-
-[<RequireQualifiedAccess>]
-module ValueObject =
-
-    let inline get<'t, 'v when 't :> IValueObject<'v>> (valueObject:'t) =
-        valueObject.Get()
-
-    let create (factory:ValueObjectFactory<'t, 'v, 'e>) =
-        factory.Clean
-        >> factory.Constrain
-        >> Result.bind factory.Construct
+    /// Tries to create a `ValueObject` from the given `value`.
+    member this.TryCreate(value) =
+        this.TryParse(value)
+        |> Result.map(fun parsedValue ->
+            { Value = parsedValue
+              Proof = Phantom.prove tag
+            }
+        )
 
 
-    open Mimir.Jsonic
-
-    let encode<'t, 'v when 't :> IValueObject<'v>> (name:string)
-                                                   (valueEncoder:Encoder<'v>)
-                                                   : Encoder<'t> =
-
-        fun (valueObject:'t) ->
-            Encode.object [ (name, valueEncoder (get valueObject)) ]
-
-
-    let decode (name:string)
-               (valueDecoder:Decoder<'v>)
-               (formatError:'e -> string)
-               (factory:ValueObjectFactory<'t, 'v, 'e>)
-               : Decoder<'t> =
-
-        let decode = Decode.object(fun get -> get.Required.Field name valueDecoder)
-
-        fun path value ->
-            match decode path value with
-            | Error e -> Error e
-            | Ok decodedValue ->
-                create factory decodedValue
-                |> Result.mapError(fun e ->
-                    let msg = $"Creation of ValueObject {name} failed with message: {formatError e}."
-                    JsonicError.Failure
-                        {| Path=path
-                           Message=msg
-                        |}
-                )
+    /// Creates a `ValueObject`, an error will be raised as an exception!
+    member this.Create(value) =
+        match this.TryCreate(value) with
+        | Error e -> failwithf $"Creation of ValueObject %A{tag} failed with error: {this.FormatError(e)}"
+        | Ok v -> v
 
 
 
-    let codec name
-              valueEncoder
-              valueDecoder
-              (formatError:'e -> string)
-              (factory:ValueObjectFactory<'t, 'v, 'e>)
-              : Codec<'t> =
+    /// The codec for `ValueObject` instances produced by this factory.
+    member this.Codec: Codec<ValueObject<'tag, 'value>> =
+        let valueEncoder = Codec.encoder valueCodec
+        let encode : Encoder<ValueObject<'tag, 'value>> =
 
-        Codec.build
-            (encode name valueEncoder)
-            (decode name valueDecoder formatError factory)
+            fun (valueObject:ValueObject<'tag, 'value>) ->
+                Encode.object [ (objectName, valueEncoder valueObject.Value) ]
 
+        let valueDecoder = Codec.decoder valueCodec
+        let decode: Decoder<ValueObject<'tag, 'value>> =
+            let decode = Decode.object(fun get -> get.Required.Field objectName valueDecoder)
 
+            fun path value ->
+                match decode path value with
+                | Error e -> Error e
+                | Ok decodedValue ->
+                    this.TryCreate(decodedValue)
+                    |> Result.mapError(fun e ->
+                        let msg = $"Creation of ValueObject {objectName} failed with message: {this.FormatError(e)}."
+                        JsonicError.Failure
+                            {| Path=path
+                               Message=msg
+                            |}
+                    )
 
-[<AutoOpen>]
-module ValueObjectPervasive =
-    let extract = ValueObject.get
-
-    let inline (|ValueObject|) value =
-        ValueObject.get value
+        Codec.build encode decode
