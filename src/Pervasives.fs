@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module Mimir.DomainDrivenDesign.ExtractPervasives
+module Mimir.DomainDrivenDesign.Pervasives
 
 let inline (|Extractable|) (instance:^a) =
     (^a: (member Extract: unit -> ^value) instance)
