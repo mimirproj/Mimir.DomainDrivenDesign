@@ -4,7 +4,7 @@
 		<Description>Mimir's DomainDrivenDesign</Description>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<Version>6.0.0-alpha</Version>
+		<Version>6.1.0</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageTags>Mimir Domain Driven Design</PackageTags>
@@ -17,13 +17,13 @@
 		<WarningsAsErrors>25</WarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<Compile Include="ExtractPervasives.fs"/>
+		<Compile Include="Pervasives.fs"/>
+		<Compile Include="Constraint.fs"/>
+		<Compile Include="ValueObject.fs"/>
 		<Compile Include="Identifier.fs"/>
 		<Compile Include="MonotonicValue.fs"/>
-		<Compile Include="ValueObject.fs"/>
-		<Compile Include="Constraint.fs"/>
-		<Compile Include="EventSourcing.fs"/>
-		<Compile Include="Aggregates.fs"/>
+		<!-- <Compile Include="EventSourcing.fs"/>
+		<Compile Include="Aggregates.fs"/> -->
 	</ItemGroup>
 	<!-- Add source files to "fable" folder in Nuget package -->
 	<ItemGroup>
@@ -34,7 +34,7 @@
 		<PackageReference Include="Mimir.Elm.Regex" Version="1.0.0"/>
 		<PackageReference Include="Mimir.Elm.Time" Version="1.0.0"/>
 		<PackageReference Include="Mimir.FSharp.Extensions" Version="3.3.0"/>
-		<PackageReference Include="Mimir.Jsonic" Version="5.0.0-alpha"/>
+		<PackageReference Include="Mimir.Jsonic" Version="6.0.0"/>
 		<PackageReference Include="FSharpPlus" Version="1.2.2"/>
 	</ItemGroup>
 </Project>
