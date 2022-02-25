@@ -43,6 +43,15 @@ type ValueObjectTag<'tag, 'value, 'error
     static member Codec =
         codec
 
+    static member Create (value:'value) = 
+        tryCreate value
+        |> Result.mapBoth 
+            id 
+            (fun e -> 
+                let msg = $"Creation of ValueObject {tag.ObjectName} failed with message: {tag.FormatError(e)}."
+                failwith msg
+            )
+
     static member TryCreate (value:'value) =
         tryCreate value
 
@@ -88,6 +97,10 @@ and
 
     static member Codec =
         ValueObjectTag<'tag, 'value, 'error>.Codec
+
+
+    static member Create (value:'value) =
+        ValueObjectTag<'tag, 'value, 'error>.Create value
 
     static member TryCreate (value:'value) =
         ValueObjectTag<'tag, 'value, 'error>.TryCreate value

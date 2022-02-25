@@ -15,20 +15,23 @@ type Equality =
     | LessThan
     | LessThanOrEqual
     | Equal
+    | NotEqual
     | GreaterThanOrEqual
     | GreaterThan
 
     static member Codec:Codec<Equality> =
-        Codec.custom(fun a b c d e value ->
+        Codec.custom(fun a b c d e f value ->
             match value with
             | LessThan -> a
             | LessThanOrEqual -> b
             | Equal -> c
-            | GreaterThanOrEqual -> d
-            | GreaterThan -> e)
+            | NotEqual -> d
+            | GreaterThanOrEqual -> e
+            | GreaterThan -> f)
         |> Codec.variant0 "lt" Equality.LessThan
         |> Codec.variant0 "lte" Equality.LessThanOrEqual
         |> Codec.variant0 "eq" Equality.Equal
+        |> Codec.variant0 "neq" Equality.NotEqual
         |> Codec.variant0 "gte" Equality.GreaterThanOrEqual
         |> Codec.variant0 "gt" Equality.GreaterThan
         |> Codec.buildCustom
@@ -40,6 +43,7 @@ module Equality =
         | Equality.LessThan -> (<)
         | Equality.LessThanOrEqual -> (<=)
         | Equality.Equal -> (=)
+        | Equality.NotEqual -> (<>)
         | Equality.GreaterThanOrEqual -> (>=)
         | Equality.GreaterThan -> (>)
 
@@ -47,6 +51,7 @@ module Equality =
         | Equality.LessThan ->           "<"
         | Equality.LessThanOrEqual ->    "<="
         | Equality.Equal ->              "="
+        | Equality.NotEqual ->           "/="
         | Equality.GreaterThanOrEqual -> ">="
         | Equality.GreaterThan ->        ">"
 
